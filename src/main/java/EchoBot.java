@@ -28,7 +28,7 @@ public class EchoBot extends TelegramLongPollingBot {
             String inputMessage = update.getMessage().getText();
             String answer = "";
             switch (inputMessage){
-                case "/start": answer = "Привет. Я Эхо-бот. Пообщаемя?";break;
+                case "/start": answer = "РџСЂРёРІРµС‚. РЇ Р­С…Рѕ-Р±РѕС‚. РџРѕРѕР±С‰Р°РµРјСЏ?";break;
                 default: answer = inputMessage;
             }
             SendMessage msg = new SendMessage(update.getMessage().getChatId().toString(),
