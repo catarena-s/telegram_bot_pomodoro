@@ -88,32 +88,33 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Sticker sticker = null;
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String [] args = update.getMessage().getText().split(" ");
+            String[] args = update.getMessage().getText().split(" ");
             Long userId = update.getMessage().getChatId();
             String inputMessage = update.getMessage().getText();
             String answer = "";
             switch (args[0]) {
                 case "/start":
-                    answer = "Привет. Я Pomodoro-бот. Как будем работать?\n"+
-                            "Введи время работы и оттыха  в формате:\n"+
-                            "<время работы> <время отдыха>\nНапример: 30 5";//  <количество повторов>  <длинный перерыв> ";
+                    answer = "Привет. Я Pomodoro-бот. Как будем работать?\n" +
+                            "Введи время работы и оттыха  в формате:\n" +
+                            "<время работы> <время отдыха>\n" +
+                            "Например(работать: 30 мин, отдыхать: 5 мин): 30 5";//  <количество повторов>  <длинный перерыв> ";
                     isStartBotMsg = true;
                     sendMsg(update.getMessage().getChatId(), answer);
                     break;
                 case "/help":
-                    answer = "«Метод помидора» — техника управления временем, предложенная Франческо Чирилло в конце 1980-х. \n"+
-                            "Методика предполагает увеличение эффективности работы при меньших временных затратах за счёт \n"+
-                            "глубокой концентрации и коротких перерывов. \n"+
-                            "Доступные команды:\n"+
-                            "-help - помощь\n"+
-                            "-d - использовать значения по умолчанию(будет исполнена строка команд -w 25 -b 5 -l 15 -r 1 m-1)\n"+
-                            "-w - сколько работать (мин)\t-> по умолчанию = 25\n"+
-                            "-b - сколько отдыхать (мин)\t-> по умолчанию = 5\n"+
-                            "-l - длинный перерыв после 4го помидора (мин)\t-> по умолчанию = 15\n"+
-                            "-r - количество повторов \t-> по умолчанию = 1\n"+
-                            "-m - множитель(увеличивает время работы не следующих шага) \t-> по умолчанию = 1\n"+
-                            "Пример : -w 30 -b 5 -r 2 m-2\n"+
-                            "1) работа 30 мин отдых 5\n"+
+                    answer = "«Метод помидора» — техника управления временем, предложенная Франческо Чирилло в конце 1980-х. \n" +
+                            "Методика предполагает увеличение эффективности работы при меньших временных затратах за счёт \n" +
+                            "глубокой концентрации и коротких перерывов. \n" +
+                            "Доступные команды:\n" +
+                            "-help - помощь\n" +
+                            "-d - использовать значения по умолчанию(будет исполнена строка команд -w 25 -b 5 -l 15 -r 1 m-1)\n" +
+                            "-w - сколько работать (мин)\t-> по умолчанию = 25\n" +
+                            "-b - сколько отдыхать (мин)\t-> по умолчанию = 5\n" +
+                            "-l - длинный перерыв после 4го помидора (мин)\t-> по умолчанию = 15\n" +
+                            "-r - количество повторов \t-> по умолчанию = 1\n" +
+                            "-m - множитель(увеличивает время работы не следующих шага) \t-> по умолчанию = 1\n" +
+                            "Пример : -w 30 -b 5 -r 2 m-2\n" +
+                            "1) работа 30 мин отдых 5\n" +
                             "2) работа 60 мин отдых 5";
                     isStartBotMsg = false;
                     sendMsg(update.getMessage().getChatId(), answer);
@@ -123,9 +124,10 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                     isRun = true;
                     sendSticker(update.getMessage().getChatId(), START_WORK_ANIMATED_STICKER);
                     break;
-                case"/settings":break;
+                case "/settings":
+                    break;
                 default: {
-                    isRun=false;
+                    isRun = false;
                     answer = "Давай работай!";
                     isStartBotMsg = false;
                     if (args.length >= 1) {
@@ -161,7 +163,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
         SendMessage msg = new SendMessage(chatId.toString(), msgStr);
         msg.enableMarkdown(true);
         try {
-        //    if (isStartBotMsg) setButtons(msg);
+            //    if (isStartBotMsg) setButtons(msg);
 
             execute(msg);
         } catch (TelegramApiException e) {
@@ -175,7 +177,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
         while (true) {
             //    System.out.printf("Количество таймеров пользователей = %d\n", userTimers.size());
 //            if(isRun()){
-                userTimers.forEach((timer, userId) -> {
+            userTimers.forEach((timer, userId) -> {
                 //        System.out.printf("Проверка userId = %d, userTime = %s, now = %s\n", userId, timer.toString(), LocalTime.now().format(formatter));
                 if (Instant.now().isAfter(timer.time)) {
                     userTimers.remove(timer);
