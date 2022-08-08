@@ -94,9 +94,9 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
             String answer = "";
             switch (args[0]) {
                 case "/start":
-                    answer = "Привет. Я Pomodoro-бот. как будем работать?\n"+
-                            "Введи время работы и оттыха в формате:\n"+
-                            "-w время работы -b время отдыха  -r количество повторов  -l длинный перерыв ";
+                    answer = "Привет. Я Pomodoro-бот. Как будем работать?\n"+
+                            "Введи время работы и оттыха  в формате:\n"+
+                            "<время работы> <время отдыха>\nНапример: 30 5";//  <количество повторов>  <длинный перерыв> ";
                     isStartBotMsg = true;
                     sendMsg(update.getMessage().getChatId(), answer);
                     break;
@@ -125,8 +125,8 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                     break;
                 case"/settings":break;
                 default: {
-                    answer = "Давай работай!";
                     isRun=false;
+                    answer = "Давай работай!";
                     isStartBotMsg = false;
                     if (args.length >= 1) {
                         Instant workTime = Instant.now().plus(Long.parseLong(args[0]), ChronoUnit.MINUTES);
@@ -138,6 +138,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
 
                     }
                     sendMsg(update.getMessage().getChatId(), answer);
+                    sendSticker(update.getMessage().getChatId(), START_WORK_ANIMATED_STICKER);
                 }
 
             }
@@ -160,7 +161,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
         SendMessage msg = new SendMessage(chatId.toString(), msgStr);
         msg.enableMarkdown(true);
         try {
-            if (isStartBotMsg) setButtons(msg);
+        //    if (isStartBotMsg) setButtons(msg);
 
             execute(msg);
         } catch (TelegramApiException e) {
@@ -173,7 +174,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         while (true) {
             //    System.out.printf("Количество таймеров пользователей = %d\n", userTimers.size());
-            if(isRun()){
+//            if(isRun()){
                 userTimers.forEach((timer, userId) -> {
                 //        System.out.printf("Проверка userId = %d, userTime = %s, now = %s\n", userId, timer.toString(), LocalTime.now().format(formatter));
                 if (Instant.now().isAfter(timer.time)) {
@@ -182,7 +183,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                         case WORK: {
                             sendMsg(userId, "Пора отдыхать");
                             sendSticker(userId, REST_ANIMATED_STICKER);
-                            if(! userTimers.containsValue(userId)) isRun = false;
+//                            if(! userTimers.containsValue(userId)) isRun = false;
                             break;
                         }
                         case BREAK: {
@@ -199,7 +200,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                 }
             });
 
-            }
+//            }
             Thread.sleep(1000);
         }
     }
