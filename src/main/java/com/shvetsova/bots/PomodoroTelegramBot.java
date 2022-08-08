@@ -123,6 +123,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                     isRun = true;
                     sendSticker(update.getMessage().getChatId(), START_WORK_ANIMATED_STICKER);
                     break;
+                case"/settings":break;
                 default: {
                     answer = "Давай работай!";
                     isRun=false;
