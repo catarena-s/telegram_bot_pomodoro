@@ -1,17 +1,12 @@
+package com.shvetsova.bots;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class EchoBot extends TelegramLongPollingBot {
-    public static void main(String[] args)throws TelegramApiException {
-        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        var echoBot = new EchoBot();
-        botsApi.registerBot(echoBot);
-    }
-    private static final String  YOUR_TOKEN="";
+    private static final String  YOUR_TOKEN="5467177008:AAGA-yVRyaHcEYLzNxqardMMDmqpuzdIVEQ";
     @Override
     public String getBotUsername() {
         return "Practice Cmd EchoBor";
