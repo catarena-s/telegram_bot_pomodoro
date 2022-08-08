@@ -88,8 +88,8 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Sticker sticker = null;
         if (update.hasMessage() && update.getMessage().hasText()) {
-            var args = update.getMessage().getText().split(" ");
-            var userId = update.getMessage().getChatId();
+            String [] args = update.getMessage().getText().split(" ");
+            Long userId = update.getMessage().getChatId();
             String inputMessage = update.getMessage().getText();
             String answer = "";
             switch (args[0]) {
@@ -101,7 +101,7 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                     sendMsg(update.getMessage().getChatId(), answer);
                     break;
                 case "/help":
-                    answer ="«Метод помидора» — техника управления временем, предложенная Франческо Чирилло в конце 1980-х. "+
+                    answer = "«Метод помидора» — техника управления временем, предложенная Франческо Чирилло в конце 1980-х. "+
                             "Методика предполагает увеличение эффективности работы при меньших временных затратах за счёт "+
                             "глубокой концентрации и коротких перерывов. "+
                             "Доступные команды:"+
@@ -128,10 +128,10 @@ public class PomodoroTelegramBot extends TelegramLongPollingBot {
                     isRun=false;
                     isStartBotMsg = false;
                     if (args.length >= 1) {
-                        var workTime = Instant.now().plus(Long.parseLong(args[0]), ChronoUnit.MINUTES);
+                        Instant workTime = Instant.now().plus(Long.parseLong(args[0]), ChronoUnit.MINUTES);
                         userTimers.put(new Timer(workTime, PomodoroType.WORK), userId);
                         if (args.length == 2) {
-                            var breakTime = workTime.plus(Long.parseLong(args[1]), ChronoUnit.MINUTES);
+                            Instant breakTime = workTime.plus(Long.parseLong(args[1]), ChronoUnit.MINUTES);
                             userTimers.put(new Timer(breakTime, PomodoroType.BREAK), userId);
                         }
 
