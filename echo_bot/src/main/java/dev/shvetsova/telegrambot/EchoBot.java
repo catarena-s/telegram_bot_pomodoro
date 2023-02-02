@@ -1,4 +1,4 @@
-package com.shvetsova.bots;
+package dev.shvetsova.telegrambot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -6,7 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class EchoBot extends TelegramLongPollingBot {
-    private static final String  YOUR_TOKEN="5467177008:AAGA-yVRyaHcEYLzNxqardMMDmqpuzdIVEQ";
+    private static final String YOUR_TOKEN = "5467177008:AAGA-yVRyaHcEYLzNxqardMMDmqpuzdIVEQ";//токен для доступа к API Telegram
+
     @Override
     public String getBotUsername() {
         return "Practice Cmd EchoBor";
@@ -22,9 +23,12 @@ public class EchoBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String inputMessage = update.getMessage().getText();
             String answer = "";
-            switch (inputMessage){
-                case "/start": answer = "Привет. Я Эхо-бот. Пообщаемя?";break;
-                default: answer = inputMessage;
+            switch (inputMessage) {
+                case "/start":
+                    answer = "Привет. Я Эхо-бот. Пообщаемся?";
+                    break;
+                default:
+                    answer = inputMessage;
             }
             SendMessage msg = new SendMessage(update.getMessage().getChatId().toString(),
                     answer);

@@ -1,2 +1,4 @@
 rootProject.name = 'Telegram_Bots'
+include 'echo_bot'
+include 'pomodoro'
 
