@@ -1,42 +1,43 @@
 package dev.shvetsova.telegrambot.service;
 
-import dev.shvetsova.utils.Resource;
 import dev.shvetsova.telegrambot.menu.PomodoroMenu;
-import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+//@PropertySource("classpath:bot.origin.properties")
 public class MsgSendService {
-    static Integer lastId = null;
+    private static final Logger log = LoggerFactory.getLogger(MsgSendService.class);
+
+    //    public static final String CLOCK_gif = "pomodoro/src/main/resources/sourse/csgo-time.mp4";
+//    @Value(value = "${SAND.CLOCK.gif.url}")
+    public static String SAND_CLOCK_gif = "src/main/resources/bot/loading-windows98.gif";
+    private static AbsSender sender;
+
+    private static Integer lastId;
+
     private MsgSendService() {
     }
 
-    public static void sendMsg(AbsSender sender, Long chatId, String msgStr) {
-        SendMessage msg = new SendMessage(chatId.toString(), msgStr);
-        msg.enableMarkdown(true);
-//        setButtons(msg);
-        try {
-            sender.execute(msg);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void sendMsg(AbsSender sender, Long chatId, String msgStr, PomodoroMenu menu) {
+    public static void sendMsg(Long chatId, String msgStr, PomodoroMenu menu) {
+        log.debug("userId= {}, massage = {}", chatId, msgStr);
         SendMessage msg = new SendMessage(chatId.toString(), msgStr);
         msg.enableMarkdown(true);
         if (lastId != null && (menu == PomodoroMenu.RUN || menu == PomodoroMenu.STOP)) {
@@ -58,9 +59,13 @@ public class MsgSendService {
         }
     }
 
+    public static void setSender(AbsSender sender) {
+        MsgSendService.sender = sender;
+    }
+
     private static SendAnimation initAnimation(Long chatId) {
         SendAnimation animation;
-        Path path = Paths.get(Resource.SAND_CLOCK_gif);
+        Path path = Paths.get(SAND_CLOCK_gif);
         InputFile stickerFile = new InputFile(path.toFile());
         animation = new SendAnimation(chatId.toString(), stickerFile);
         return animation;
@@ -82,33 +87,10 @@ public class MsgSendService {
         Path path = Paths.get(sticker);
         InputFile stickerFile = new InputFile(path.toFile());
         try {
-            //    setButtons(new SendMessage(chatId.toString(), ""));
             sender.execute(new SendSticker(chatId.toString(), stickerFile));
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static void setButtons(SendMessage sendMessage) {
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(keyboardMarkup);
-
-        keyboardMarkup.setSelective(true);
-        keyboardMarkup.setResizeKeyboard(true);
-        keyboardMarkup.setOneTimeKeyboard(false);
-
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow row1 = new KeyboardRow(1);
-        KeyboardButton button = new KeyboardButton("help");
-        button.setText("/help");
-
-        KeyboardRow row2 = new KeyboardRow(2);
-        row2.add("/check");
-        row2.add("/stop");
-
-        keyboard.add(row1);
-        keyboard.add(row2);
-        keyboardMarkup.setKeyboard(keyboard);
     }
 
     public static void sendInlineKeyBoardMessage(SendMessage sendMessage, PomodoroMenu menu) {
@@ -125,16 +107,11 @@ public class MsgSendService {
             inlineKeyboardButtons[i].setPay(false);
         }
 
-
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
         if (commands.length > 2) {
-            for (int i = 0; i < 2; i++) {
-                keyboardButtonsRow.add(inlineKeyboardButtons[i]);
-            }
-            for (int i = 2; i < inlineKeyboardButtons.length; i++) {
-                keyboardButtonsRow2.add(inlineKeyboardButtons[i]);
-            }
+            keyboardButtonsRow.addAll(Arrays.asList(inlineKeyboardButtons).subList(0, 2));
+            keyboardButtonsRow2.addAll(Arrays.asList(inlineKeyboardButtons).subList(2, inlineKeyboardButtons.length));
         } else {
             Collections.addAll(keyboardButtonsRow, inlineKeyboardButtons);
         }
@@ -146,8 +123,6 @@ public class MsgSendService {
         inlineKeyboardMarkup.setKeyboard(rowList);
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-
-
-    } // Кнопки
+    }
 
 }

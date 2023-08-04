@@ -1,5 +1,4 @@
-package dev.shvetsova.telegrambot._deprecated.model;
-@Deprecated
+package dev.shvetsova.telegrambot.model;
 public class PomodoroDefault extends Pomodoro {
     public static final int COUNT_REPEAT = 2;// количество повторов
     public static final int DEFAULT_MULTIPLIER = 1;// множитель
