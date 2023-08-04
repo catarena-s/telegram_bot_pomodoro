@@ -24,7 +24,7 @@ import static dev.shvetsova.telegrambot.utils.MenuHelper.MSG_HELP_POMODORO;
 
 @Getter
 @Setter
-@PropertySource("classpath:bot.origin.properties")
+@PropertySource("classpath:bot.properties")
 public class BotService {
     @Value(value = "${FINISH.WORK.STICKER.url}")
     public String FINISH_WORK_STICKER;

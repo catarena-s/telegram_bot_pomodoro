@@ -13,7 +13,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-@PropertySource("classpath:bot.origin.properties")
+@PropertySource("classpath:bot.properties")
 public class PomodoroTelegramBot extends TelegramLongPollingBot {
     private BotService botService;
     private static final Logger log = LoggerFactory.getLogger(PomodoroTelegramBot.class);

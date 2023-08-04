@@ -15,7 +15,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:/datasourse.origin.properties")
+@PropertySource("classpath:/datasourse.properties")
 public class AppConfig {
     @Value(value = "${db.url}")
     private String dbUrl;

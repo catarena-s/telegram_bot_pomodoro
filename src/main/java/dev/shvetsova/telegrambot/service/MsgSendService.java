@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-//@PropertySource("classpath:bot.origin.properties")
 public class MsgSendService {
     private static final Logger log = LoggerFactory.getLogger(MsgSendService.class);
 
