@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pomodoro {
-    private static final long TIME_SLEEP = 249;//249;//499;//60_000;// задержка 60 сек = 60_000 милисекунд
+    private static final long TIME_SLEEP = 249;
 
     protected int repeats;
     protected int breakTime;

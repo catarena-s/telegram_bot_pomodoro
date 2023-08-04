@@ -8,7 +8,6 @@ import dev.shvetsova.telegrambot.model.PomodoroDemo;
 import dev.shvetsova.telegrambot.model.PomodoroStatus;
 import dev.shvetsova.telegrambot.model.Timer;
 import dev.shvetsova.telegrambot.utils.MenuHelper;
-import dev.shvetsova.telegrambot.utils.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static dev.shvetsova.telegrambot.utils.MenuHelper.MSG_HELP_COMMANDS;
 import static dev.shvetsova.telegrambot.utils.MenuHelper.MSG_HELP_POMODORO;
+
 @Getter
 @Setter
 @PropertySource("classpath:bot.origin.properties")

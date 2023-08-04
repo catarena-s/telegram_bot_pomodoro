@@ -26,8 +26,6 @@ import java.util.List;
 public class MsgSendService {
     private static final Logger log = LoggerFactory.getLogger(MsgSendService.class);
 
-    //    public static final String CLOCK_gif = "pomodoro/src/main/resources/sourse/csgo-time.mp4";
-//    @Value(value = "${SAND.CLOCK.gif.url}")
     public static String SAND_CLOCK_gif = "src/main/resources/bot/loading-windows98.gif";
     private static AbsSender sender;
 
